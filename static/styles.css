@@ -550,6 +550,86 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Advice Box */
+.advice-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: rgba(0, 212, 255, 0.06);
+  border: 1px solid rgba(0, 212, 255, 0.12);
+  border-radius: var(--radius-md);
+  max-width: 360px;
+  animation: fadeInUp 0.5s ease 0.7s both;
+}
+
+.advice-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.advice-text {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Loan Eligibility Box */
+.loan-box {
+  margin-top: 14px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  max-width: 360px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  animation: fadeInUp 0.5s ease 0.9s both;
+}
+
+.loan-box.low {
+  background: rgba(0, 230, 138, 0.08);
+  border: 1px solid rgba(0, 230, 138, 0.18);
+  color: var(--risk-low);
+}
+
+.loan-box.medium {
+  background: rgba(255, 179, 0, 0.08);
+  border: 1px solid rgba(255, 179, 0, 0.18);
+  color: var(--risk-medium);
+}
+
+.loan-box.high {
+  background: rgba(255, 77, 106, 0.08);
+  border: 1px solid rgba(255, 77, 106, 0.18);
+  color: var(--risk-high);
+}
+
+.loan-text {
+  margin: 0;
+}
+
+/* Table Loan Badge */
+.table-loan {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.table-loan.eligible {
+  background: rgba(0, 230, 138, 0.1);
+  color: var(--risk-low);
+}
+
+.table-loan.ineligible {
+  background: rgba(255, 77, 106, 0.1);
+  color: var(--risk-high);
+}
+
 /* ── Batch Analysis ── */
 .batch-section {
   margin-bottom: 24px;

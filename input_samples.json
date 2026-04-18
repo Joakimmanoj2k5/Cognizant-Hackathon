@@ -1,0 +1,46 @@
+{
+  "description": "TrustScore AI — Sample Input Data for M1 UI / Testing",
+  "format": {
+    "income": "Monthly income in INR (number, >= 0)",
+    "rating": "Platform rating (number, 0.0 - 5.0)",
+    "gigs": "Total gigs completed (integer, >= 0)"
+  },
+  "expected_output_format": {
+    "score": "integer 0-100",
+    "risk": "Low | Medium | High",
+    "reason": "string — explanation of the score",
+    "advice": "string — actionable improvement suggestion"
+  },
+  "samples": [
+    {
+      "income": 10000,
+      "rating": 3.5,
+      "gigs": 20,
+      "description": "Entry-level gig worker with modest income"
+    },
+    {
+      "income": 40000,
+      "rating": 4.7,
+      "gigs": 120,
+      "description": "Experienced worker with strong profile"
+    },
+    {
+      "income": 5000,
+      "rating": 2.0,
+      "gigs": 5,
+      "description": "New worker, high risk profile"
+    },
+    {
+      "income": 60000,
+      "rating": 4.9,
+      "gigs": 200,
+      "description": "Top-tier veteran — should score 85+"
+    },
+    {
+      "income": 30000,
+      "rating": 4.2,
+      "gigs": 80,
+      "description": "Mid-range worker — borderline Low/Medium risk"
+    }
+  ]
+}

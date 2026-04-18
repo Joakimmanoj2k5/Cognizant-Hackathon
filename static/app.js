@@ -13,6 +13,10 @@ const gaugeFill = document.getElementById('gauge-fill');
 const scoreNumber = document.getElementById('score-number');
 const riskBadge = document.getElementById('risk-badge');
 const reasonText = document.getElementById('reason-text');
+const adviceBox = document.getElementById('advice-box');
+const adviceText = document.getElementById('advice-text');
+const loanBox = document.getElementById('loan-box');
+const loanText = document.getElementById('loan-text');
 
 const incomeInput = document.getElementById('income-input');
 const ratingInput = document.getElementById('rating-input');
@@ -176,6 +180,23 @@ scoreForm.addEventListener('submit', async (e) => {
     animateGauge(result.score, result.risk);
     reasonText.textContent = result.reason;
 
+    // Show advice
+    if (result.advice) {
+      adviceBox.style.display = 'flex';
+      adviceText.textContent = result.advice;
+    } else {
+      adviceBox.style.display = 'none';
+    }
+
+    // Show loan eligibility
+    if (result.loan_message) {
+      loanBox.style.display = 'block';
+      loanBox.className = 'loan-box ' + result.risk.toLowerCase();
+      loanText.textContent = result.loan_message;
+    } else {
+      loanBox.style.display = 'none';
+    }
+
     // Save to history
     addToHistory(data, result);
 
@@ -238,6 +259,9 @@ function renderBatchTable(data, results) {
     const riskCell = r
       ? `<td><span class="table-risk ${r.risk.toLowerCase()}">${r.risk}</span></td>`
       : `<td style="color: var(--text-muted)">—</td>`;
+    const loanCell = r
+      ? `<td><span class="table-loan ${r.loan_eligible ? 'eligible' : 'ineligible'}">${r.loan_eligible ? '✅ Yes' : '❌ No'}</span></td>`
+      : `<td style="color: var(--text-muted)">—</td>`;
     const reasonCell = r
       ? `<td style="color: var(--text-secondary); font-size: 0.78rem;">${r.reason}</td>`
       : `<td style="color: var(--text-muted)">—</td>`;
@@ -250,6 +274,7 @@ function renderBatchTable(data, results) {
         <td>${profile.gigs}</td>
         ${scoreCell}
         ${riskCell}
+        ${loanCell}
         ${reasonCell}
       </tr>
     `;

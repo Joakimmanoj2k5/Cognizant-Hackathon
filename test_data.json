@@ -1,7 +1,72 @@
 [
-  { "income": 8000,  "rating": 3.2, "gigs": 15,  "label": "low-income new worker" },
-  { "income": 20000, "rating": 4.0, "gigs": 60,  "label": "moderate earner" },
-  { "income": 35000, "rating": 4.5, "gigs": 120, "label": "solid gig worker" },
-  { "income": 55000, "rating": 4.8, "gigs": 250, "label": "veteran high earner" },
-  { "income": 45000, "rating": 3.1, "gigs": 90,  "label": "good income, poor rating" }
+  {
+    "income": 8000,
+    "rating": 3.2,
+    "gigs": 15,
+    "label": "low-income new worker",
+    "expected_risk": "High"
+  },
+  {
+    "income": 12000,
+    "rating": 2.8,
+    "gigs": 8,
+    "label": "very low earner, poor rating",
+    "expected_risk": "High"
+  },
+  {
+    "income": 20000,
+    "rating": 4.0,
+    "gigs": 60,
+    "label": "moderate earner",
+    "expected_risk": "Medium"
+  },
+  {
+    "income": 25000,
+    "rating": 3.6,
+    "gigs": 45,
+    "label": "decent income, average rating",
+    "expected_risk": "Medium"
+  },
+  {
+    "income": 35000,
+    "rating": 4.5,
+    "gigs": 120,
+    "label": "solid gig worker",
+    "expected_risk": "Low"
+  },
+  {
+    "income": 55000,
+    "rating": 4.8,
+    "gigs": 250,
+    "label": "veteran high earner",
+    "expected_risk": "Low"
+  },
+  {
+    "income": 45000,
+    "rating": 3.1,
+    "gigs": 90,
+    "label": "good income, poor rating",
+    "expected_risk": "Medium"
+  },
+  {
+    "income": 70000,
+    "rating": 4.9,
+    "gigs": 300,
+    "label": "top performer",
+    "expected_risk": "Low"
+  },
+  {
+    "income": 0,
+    "rating": 0,
+    "gigs": 0,
+    "label": "edge case — zero values",
+    "expected_risk": "High"
+  },
+  {
+    "income": 120000,
+    "rating": 5.0,
+    "gigs": 500,
+    "label": "edge case — maximum values",
+    "expected_risk": "Low"
+  }
 ]
