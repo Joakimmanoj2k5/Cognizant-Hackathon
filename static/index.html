@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TrustScore AI — AI-powered credit scoring for gig workers. Analyze creditworthiness without traditional credit history." />
+  <title>TrustScore AI — Credit Scoring for Gig Workers</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- ── Header ── -->
+    <header class="app-header" id="app-header">
+      <div class="header-brand">
+        <div class="header-logo">🛡️</div>
+        <div>
+          <h1 class="header-title">TrustScore AI</h1>
+          <p class="header-subtitle">Gig Worker Credit Intelligence</p>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span class="dot"></span>
+        <span>Team RiskWise • Cognizant Technoverse 2026</span>
+      </div>
+    </header>
+
+    <!-- ── Main: Input + Result ── -->
+    <section class="main-grid">
+
+      <!-- Input Card -->
+      <div class="glass-card" id="input-card">
+        <div class="card-header">
+          <div class="icon cyan">📊</div>
+          <h2 class="card-title">Worker Profile</h2>
+        </div>
+        <form class="input-section" id="score-form">
+
+          <!-- Income -->
+          <div class="form-group">
+            <label class="form-label" for="income-input">
+              <span>Monthly Income (₹)</span>
+              <span class="value-display" id="income-display">₹30,000</span>
+            </label>
+            <div class="range-wrapper">
+              <div class="range-track-fill" id="income-track"></div>
+              <input
+                type="range"
+                class="range-slider"
+                id="income-input"
+                min="0"
+                max="120000"
+                step="1000"
+                value="30000"
+              />
+            </div>
+          </div>
+
+          <!-- Rating -->
+          <div class="form-group">
+            <label class="form-label" for="rating-input">
+              <span>Platform Rating</span>
+              <span class="value-display" id="rating-display">4.0 ★</span>
+            </label>
+            <div class="range-wrapper">
+              <div class="range-track-fill" id="rating-track"></div>
+              <input
+                type="range"
+                class="range-slider"
+                id="rating-input"
+                min="0"
+                max="5"
+                step="0.1"
+                value="4.0"
+              />
+            </div>
+          </div>
+
+          <!-- Gigs -->
+          <div class="form-group">
+            <label class="form-label" for="gigs-input">
+              <span>Total Gigs Completed</span>
+              <span class="value-display" id="gigs-display">100</span>
+            </label>
+            <div class="range-wrapper">
+              <div class="range-track-fill" id="gigs-track"></div>
+              <input
+                type="range"
+                class="range-slider"
+                id="gigs-input"
+                min="0"
+                max="500"
+                step="1"
+                value="100"
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="analyze-btn">
+            <span id="analyze-btn-text">Analyze Creditworthiness</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Result Card -->
+      <div class="glass-card" id="result-card">
+        <div class="card-header">
+          <div class="icon green">✨</div>
+          <h2 class="card-title">Trust Score</h2>
+        </div>
+        <div class="result-section" id="result-section">
+
+          <!-- Placeholder (shown before first analysis) -->
+          <div class="result-placeholder" id="result-placeholder">
+            <div class="placeholder-icon">🔍</div>
+            <p>Enter worker details and click <strong>Analyze</strong> to generate a TrustScore</p>
+          </div>
+
+          <!-- Score (hidden until result) -->
+          <div id="score-result" style="display: none; text-align: center;">
+            <div class="score-gauge-container">
+              <svg class="score-gauge-svg" viewBox="0 0 200 200">
+                <circle class="gauge-bg" cx="100" cy="100" r="88" />
+                <circle
+                  class="gauge-fill"
+                  id="gauge-fill"
+                  cx="100"
+                  cy="100"
+                  r="88"
+                  stroke-dasharray="553"
+                  stroke-dashoffset="553"
+                />
+              </svg>
+              <div class="score-value">
+                <span class="score-number" id="score-number">0</span>
+                <span class="score-label">Trust Score</span>
+              </div>
+            </div>
+            <div class="risk-badge" id="risk-badge">—</div>
+            <p class="reason-text" id="reason-text"></p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Batch Analysis ── -->
+    <div class="glass-card batch-section" id="batch-section">
+      <div class="batch-header">
+        <div class="card-header" style="padding: 0; margin: 0;">
+          <div class="icon purple">📋</div>
+          <h2 class="card-title">Batch Analysis</h2>
+        </div>
+        <div class="batch-actions">
+          <button class="btn btn-secondary btn-sm" id="load-sample-btn">
+            📥 Load Sample Data
+          </button>
+          <button class="btn btn-primary btn-sm" id="run-batch-btn" disabled>
+            <span id="batch-btn-text">⚡ Score All</span>
+          </button>
+        </div>
+      </div>
+      <div class="batch-table-wrapper" id="batch-table-wrapper">
+        <div class="batch-empty" id="batch-empty">
+          Click <strong>Load Sample Data</strong> to import test profiles, then <strong>Score All</strong> to analyze.
+        </div>
+        <table class="batch-table" id="batch-table" style="display: none;">
+          <thead>
+            <tr>
+              <th>Worker Label</th>
+              <th>Income (₹)</th>
+              <th>Rating</th>
+              <th>Gigs</th>
+              <th>Score</th>
+              <th>Risk</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="batch-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── History ── -->
+    <div class="glass-card history-section" id="history-section">
+      <div class="card-header">
+        <div class="icon amber">🕐</div>
+        <h2 class="card-title">Recent Analyses</h2>
+        <button class="history-clear" id="clear-history-btn" title="Clear history">Clear</button>
+      </div>
+      <div class="history-list" id="history-list">
+        <div class="history-empty" id="history-empty">No recent analyses yet.</div>
+      </div>
+    </div>
+
+    <!-- ── Footer ── -->
+    <footer class="app-footer">
+      <p>TrustScore AI &mdash; AI-Powered Credit Intelligence for Gig Workers</p>
+      <p style="margin-top: 4px;">Built with ❤️ by Team RiskWise &bull; Cognizant Technoverse 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
