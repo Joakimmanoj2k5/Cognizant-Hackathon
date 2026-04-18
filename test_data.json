@@ -1,0 +1,7 @@
+[
+  { "income": 8000,  "rating": 3.2, "gigs": 15,  "label": "low-income new worker" },
+  { "income": 20000, "rating": 4.0, "gigs": 60,  "label": "moderate earner" },
+  { "income": 35000, "rating": 4.5, "gigs": 120, "label": "solid gig worker" },
+  { "income": 55000, "rating": 4.8, "gigs": 250, "label": "veteran high earner" },
+  { "income": 45000, "rating": 3.1, "gigs": 90,  "label": "good income, poor rating" }
+]
