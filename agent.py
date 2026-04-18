@@ -17,18 +17,24 @@ load_dotenv()
 # ============================================================
 USE_PROVIDER = "groq"  # options: "groq", "openai", "mock"
 
-if USE_PROVIDER == "groq":
-    client = OpenAI(
-        api_key=os.getenv("GROQ_API_KEY"),
-        base_url="https://api.groq.com/openai/v1"
-    )
-    MODEL = "llama-3.3-70b-versatile"
-elif USE_PROVIDER == "openai":
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    MODEL = "gpt-4o-mini"
-else:
+try:
+    if USE_PROVIDER == "groq":
+        client = OpenAI(
+            api_key=os.getenv("GROQ_API_KEY"),
+            base_url="https://api.groq.com/openai/v1"
+        )
+        MODEL = "llama-3.3-70b-versatile"
+    elif USE_PROVIDER == "openai":
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        MODEL = "gpt-4o-mini"
+    else:
+        client = None
+        MODEL = None
+except Exception:
+    print("[info] No API key found, using mock scorer")
     client = None
     MODEL = None
+    USE_PROVIDER = "mock"
 
 
 # ============================================================
