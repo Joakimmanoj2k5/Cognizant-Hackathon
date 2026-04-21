@@ -3,209 +3,398 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="TrustScore AI — AI-powered credit scoring for gig workers. Analyze creditworthiness without traditional credit history." />
+  <meta name="description" content="TrustScore AI — AI-powered credit scoring for gig workers. Analyze creditworthiness, upload documents, and chat with our AI agent." />
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="TrustScore AI — Credit Scoring for Gig Workers" />
+  <meta property="og:description" content="AI-powered credit scoring for gig workers with no traditional credit history. Built by Team RiskWise for Cognizant Technoverse 2026." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://trustscore.ai" />
+
   <title>TrustScore AI — Credit Scoring for Gig Workers</title>
   <link rel="stylesheet" href="/static/styles.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
 </head>
 <body>
+  <!-- Particle Canvas Background -->
+  <canvas id="particle-canvas"></canvas>
+
   <div class="app-container">
 
     <!-- ── Header ── -->
     <header class="app-header" id="app-header">
       <div class="header-brand">
-        <div class="header-logo">🛡️</div>
+        <div class="header-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
         <div>
           <h1 class="header-title">TrustScore AI</h1>
           <p class="header-subtitle">Gig Worker Credit Intelligence</p>
         </div>
       </div>
-      <div class="header-badge">
-        <span class="dot"></span>
-        <span>Team RiskWise • Cognizant Technoverse 2026</span>
+      <div class="header-meta">
+        <div class="model-badge" id="model-badge" title="AI Model Info">
+          <span class="model-dot"></span>
+          <span id="model-badge-text">Loading model...</span>
+        </div>
+        <div class="header-badge">
+          <span class="dot"></span>
+          <span>Team RiskWise • Cognizant Technoverse 2026</span>
+        </div>
       </div>
     </header>
 
-    <!-- ── Main: Input + Result ── -->
-    <section class="main-grid">
-
-      <!-- Input Card -->
-      <div class="glass-card" id="input-card">
-        <div class="card-header">
-          <div class="icon cyan">📊</div>
-          <h2 class="card-title">Worker Profile</h2>
+    <!-- ── Hero Section ── -->
+    <section class="hero-section" id="hero-section">
+      <div class="hero-content">
+        <div class="hero-tag">🤖 AI-Powered Agent</div>
+        <h2 class="hero-title">
+          Credit Scoring for the
+          <span class="hero-gradient-text" id="hero-typed">Gig Economy</span>
+        </h2>
+        <p class="hero-desc">
+          No credit history? No problem. Our AI agent analyzes your income, ratings, and work history
+          to generate a <strong>TrustScore</strong> — unlocking loan eligibility for millions of gig workers.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-number">3</span>
+            <span class="hero-stat-label">AI Models</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-number">0-100</span>
+            <span class="hero-stat-label">Score Range</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-number">&lt;2s</span>
+            <span class="hero-stat-label">Response Time</span>
+          </div>
         </div>
-        <form class="input-section" id="score-form">
+      </div>
+    </section>
 
-          <!-- Income -->
-          <div class="form-group">
-            <label class="form-label" for="income-input">
-              <span>Monthly Income (₹)</span>
-              <span class="value-display" id="income-display">₹30,000</span>
-            </label>
-            <div class="range-wrapper">
-              <div class="range-track-fill" id="income-track"></div>
-              <input
-                type="range"
-                class="range-slider"
-                id="income-input"
-                min="0"
-                max="120000"
-                step="1000"
-                value="30000"
-              />
+    <!-- ── Tab Navigation ── -->
+    <nav class="tab-nav" id="tab-nav">
+      <button class="tab-btn active" data-tab="score" id="tab-btn-score">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Score</span>
+      </button>
+      <button class="tab-btn" data-tab="upload" id="tab-btn-upload">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span>Upload</span>
+      </button>
+      <button class="tab-btn" data-tab="chat" id="tab-btn-chat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span>Chat Agent</span>
+      </button>
+      <button class="tab-btn" data-tab="batch" id="tab-btn-batch">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Batch</span>
+      </button>
+      <div class="tab-indicator" id="tab-indicator"></div>
+    </nav>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 1: SCORE -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="tab-content active" id="tab-score">
+      <div class="main-grid">
+
+        <!-- Input Card -->
+        <div class="glass-card" id="input-card">
+          <div class="card-header">
+            <div class="icon cyan">📊</div>
+            <h2 class="card-title">Worker Profile</h2>
+          </div>
+          <form class="input-section" id="score-form">
+
+            <!-- Income -->
+            <div class="form-group">
+              <label class="form-label" for="income-input">
+                <span>Monthly Income (₹)</span>
+                <span class="value-display" id="income-display">₹30,000</span>
+              </label>
+              <div class="range-wrapper">
+                <div class="range-track-fill" id="income-track"></div>
+                <input type="range" class="range-slider" id="income-input"
+                  min="0" max="120000" step="1000" value="30000" />
+              </div>
+            </div>
+
+            <!-- Rating -->
+            <div class="form-group">
+              <label class="form-label" for="rating-input">
+                <span>Platform Rating</span>
+                <span class="value-display" id="rating-display">4.0 ★</span>
+              </label>
+              <div class="range-wrapper">
+                <div class="range-track-fill" id="rating-track"></div>
+                <input type="range" class="range-slider" id="rating-input"
+                  min="0" max="5" step="0.1" value="4.0" />
+              </div>
+            </div>
+
+            <!-- Gigs -->
+            <div class="form-group">
+              <label class="form-label" for="gigs-input">
+                <span>Total Gigs Completed</span>
+                <span class="value-display" id="gigs-display">100</span>
+              </label>
+              <div class="range-wrapper">
+                <div class="range-track-fill" id="gigs-track"></div>
+                <input type="range" class="range-slider" id="gigs-input"
+                  min="0" max="500" step="1" value="100" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="analyze-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              <span id="analyze-btn-text">Analyze Creditworthiness</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Result Card -->
+        <div class="glass-card" id="result-card">
+          <div class="card-header">
+            <div class="icon green">✨</div>
+            <h2 class="card-title">Trust Score</h2>
+          </div>
+          <div class="result-section" id="result-section">
+
+            <!-- Placeholder (shown before first analysis) -->
+            <div class="result-placeholder" id="result-placeholder">
+              <div class="placeholder-icon">🔍</div>
+              <p>Enter worker details and click <strong>Analyze</strong> to generate a TrustScore</p>
+            </div>
+
+            <!-- Score (hidden until result) -->
+            <div id="score-result" style="display: none; text-align: center;">
+              <div class="score-gauge-container">
+                <svg class="score-gauge-svg" viewBox="0 0 200 200">
+                  <circle class="gauge-bg" cx="100" cy="100" r="88" />
+                  <circle class="gauge-fill" id="gauge-fill" cx="100" cy="100" r="88"
+                    stroke-dasharray="553" stroke-dashoffset="553" />
+                </svg>
+                <div class="score-value">
+                  <span class="score-number" id="score-number">0</span>
+                  <span class="score-label">Trust Score</span>
+                </div>
+              </div>
+              <div class="risk-badge" id="risk-badge">—</div>
+              <p class="reason-text" id="reason-text"></p>
+              <div class="advice-box" id="advice-box" style="display: none;">
+                <div class="advice-icon">💡</div>
+                <p class="advice-text" id="advice-text"></p>
+              </div>
+              <div class="loan-box" id="loan-box" style="display: none;">
+                <p class="loan-text" id="loan-text"></p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── History ── -->
+      <div class="glass-card history-section" id="history-section">
+        <div class="card-header">
+          <div class="icon amber">🕐</div>
+          <h2 class="card-title">Recent Analyses</h2>
+          <button class="history-clear" id="clear-history-btn" title="Clear history">Clear</button>
+        </div>
+        <div class="history-list" id="history-list">
+          <div class="history-empty" id="history-empty">No recent analyses yet.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 2: UPLOAD -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="tab-content" id="tab-upload">
+      <div class="glass-card upload-card">
+        <div class="card-header">
+          <div class="icon purple">📄</div>
+          <h2 class="card-title">Document Upload</h2>
+        </div>
+        <div class="upload-section">
+          <div class="upload-zone" id="upload-zone">
+            <div class="upload-zone-content" id="upload-zone-content">
+              <div class="upload-icon-wrapper">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <p class="upload-text">Drag & drop your file here</p>
+              <p class="upload-subtext">or click to browse</p>
+              <p class="upload-formats">Supports: PDF, CSV, TXT (max 5MB)</p>
+              <input type="file" id="file-input" accept=".pdf,.csv,.txt" hidden />
             </div>
           </div>
 
-          <!-- Rating -->
-          <div class="form-group">
-            <label class="form-label" for="rating-input">
-              <span>Platform Rating</span>
-              <span class="value-display" id="rating-display">4.0 ★</span>
-            </label>
-            <div class="range-wrapper">
-              <div class="range-track-fill" id="rating-track"></div>
-              <input
-                type="range"
-                class="range-slider"
-                id="rating-input"
-                min="0"
-                max="5"
-                step="0.1"
-                value="4.0"
-              />
+          <!-- File Preview -->
+          <div class="file-preview" id="file-preview" style="display: none;">
+            <div class="file-preview-icon" id="file-preview-icon">📄</div>
+            <div class="file-preview-info">
+              <p class="file-preview-name" id="file-preview-name">document.pdf</p>
+              <p class="file-preview-size" id="file-preview-size">2.4 MB</p>
+            </div>
+            <button class="file-remove-btn" id="file-remove-btn" title="Remove file">✕</button>
+          </div>
+
+          <!-- Upload Button -->
+          <button class="btn btn-primary" id="upload-btn" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span id="upload-btn-text">Analyze Document</span>
+          </button>
+
+          <!-- Upload Progress -->
+          <div class="upload-progress" id="upload-progress" style="display: none;">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p class="progress-text" id="progress-text">Analyzing document...</p>
+          </div>
+        </div>
+
+        <!-- Upload Result -->
+        <div class="upload-result" id="upload-result" style="display: none;">
+          <div class="card-header" style="padding-top: 0;">
+            <div class="icon green">📊</div>
+            <h2 class="card-title">Analysis Result</h2>
+          </div>
+
+          <div class="upload-summary" id="upload-summary"></div>
+
+          <div class="upload-extracted" id="upload-extracted">
+            <div class="extracted-grid">
+              <div class="extracted-item">
+                <span class="extracted-label">Income</span>
+                <span class="extracted-value" id="extracted-income">—</span>
+              </div>
+              <div class="extracted-item">
+                <span class="extracted-label">Rating</span>
+                <span class="extracted-value" id="extracted-rating">—</span>
+              </div>
+              <div class="extracted-item">
+                <span class="extracted-label">Gigs</span>
+                <span class="extracted-value" id="extracted-gigs">—</span>
+              </div>
             </div>
           </div>
 
-          <!-- Gigs -->
-          <div class="form-group">
-            <label class="form-label" for="gigs-input">
-              <span>Total Gigs Completed</span>
-              <span class="value-display" id="gigs-display">100</span>
-            </label>
-            <div class="range-wrapper">
-              <div class="range-track-fill" id="gigs-track"></div>
-              <input
-                type="range"
-                class="range-slider"
-                id="gigs-input"
-                min="0"
-                max="500"
-                step="1"
-                value="100"
-              />
+          <!-- Score from upload -->
+          <div class="upload-score-section" id="upload-score-section" style="display: none;">
+            <div class="upload-score-gauge">
+              <div class="mini-score" id="upload-score-value">0</div>
+              <div class="mini-risk" id="upload-risk-badge">—</div>
+            </div>
+            <p class="upload-reason" id="upload-reason-text"></p>
+            <div class="upload-loan" id="upload-loan-box"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 3: CHAT -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="tab-content" id="tab-chat">
+      <div class="glass-card chat-card">
+        <div class="card-header">
+          <div class="icon cyan">💬</div>
+          <h2 class="card-title">AI Credit Advisor</h2>
+          <span class="chat-status" id="chat-status">
+            <span class="dot"></span> Online
+          </span>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <!-- Welcome message -->
+          <div class="chat-msg ai">
+            <div class="chat-avatar ai-avatar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="chat-bubble ai-bubble">
+              <p>Hello! 👋 I'm TrustScore AI, your personal credit advisor. I can help you understand your loan eligibility, improve your credit score, or analyze your financial profile.</p>
+              <p style="margin-top: 8px; opacity: 0.7; font-size: 0.78rem;">Try asking: "Will I get a loan?" or "How can I improve my score?"</p>
             </div>
           </div>
+        </div>
 
-          <button type="submit" class="btn btn-primary" id="analyze-btn">
-            <span id="analyze-btn-text">Analyze Creditworthiness</span>
+        <div class="chat-suggestions" id="chat-suggestions">
+          <button class="suggestion-chip" data-msg="Will I get a loan?">💳 Will I get a loan?</button>
+          <button class="suggestion-chip" data-msg="How can I improve my score?">📈 Improve my score</button>
+          <button class="suggestion-chip" data-msg="What is TrustScore?">🛡️ What is TrustScore?</button>
+          <button class="suggestion-chip" data-msg="Am I eligible for credit?">🏦 Am I eligible?</button>
+        </div>
+
+        <form class="chat-input-form" id="chat-form">
+          <div class="chat-input-wrapper">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Ask about your loan eligibility..." autocomplete="off" maxlength="1000" />
+            <span class="char-counter" id="char-counter">0/1000</span>
+          </div>
+          <button type="submit" class="chat-send-btn" id="chat-send-btn" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </form>
       </div>
-
-      <!-- Result Card -->
-      <div class="glass-card" id="result-card">
-        <div class="card-header">
-          <div class="icon green">✨</div>
-          <h2 class="card-title">Trust Score</h2>
-        </div>
-        <div class="result-section" id="result-section">
-
-          <!-- Placeholder (shown before first analysis) -->
-          <div class="result-placeholder" id="result-placeholder">
-            <div class="placeholder-icon">🔍</div>
-            <p>Enter worker details and click <strong>Analyze</strong> to generate a TrustScore</p>
-          </div>
-
-          <!-- Score (hidden until result) -->
-          <div id="score-result" style="display: none; text-align: center;">
-            <div class="score-gauge-container">
-              <svg class="score-gauge-svg" viewBox="0 0 200 200">
-                <circle class="gauge-bg" cx="100" cy="100" r="88" />
-                <circle
-                  class="gauge-fill"
-                  id="gauge-fill"
-                  cx="100"
-                  cy="100"
-                  r="88"
-                  stroke-dasharray="553"
-                  stroke-dashoffset="553"
-                />
-              </svg>
-              <div class="score-value">
-                <span class="score-number" id="score-number">0</span>
-                <span class="score-label">Trust Score</span>
-              </div>
-            </div>
-            <div class="risk-badge" id="risk-badge">—</div>
-            <p class="reason-text" id="reason-text"></p>
-            <div class="advice-box" id="advice-box" style="display: none;">
-              <div class="advice-icon">💡</div>
-              <p class="advice-text" id="advice-text"></p>
-            </div>
-            <div class="loan-box" id="loan-box" style="display: none;">
-              <p class="loan-text" id="loan-text"></p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
     </section>
 
-    <!-- ── Batch Analysis ── -->
-    <div class="glass-card batch-section" id="batch-section">
-      <div class="batch-header">
-        <div class="card-header" style="padding: 0; margin: 0;">
-          <div class="icon purple">📋</div>
-          <h2 class="card-title">Batch Analysis</h2>
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 4: BATCH -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="tab-content" id="tab-batch">
+      <div class="glass-card batch-section" id="batch-section">
+        <div class="batch-header">
+          <div class="card-header" style="padding: 0; margin: 0;">
+            <div class="icon purple">📋</div>
+            <h2 class="card-title">Batch Analysis</h2>
+          </div>
+          <div class="batch-actions">
+            <button class="btn btn-secondary btn-sm" id="load-sample-btn">
+              📥 Load Sample Data
+            </button>
+            <button class="btn btn-primary btn-sm" id="run-batch-btn" disabled>
+              <span id="batch-btn-text">⚡ Score All</span>
+            </button>
+          </div>
         </div>
-        <div class="batch-actions">
-          <button class="btn btn-secondary btn-sm" id="load-sample-btn">
-            📥 Load Sample Data
-          </button>
-          <button class="btn btn-primary btn-sm" id="run-batch-btn" disabled>
-            <span id="batch-btn-text">⚡ Score All</span>
-          </button>
+        <div class="batch-table-wrapper" id="batch-table-wrapper">
+          <div class="batch-empty" id="batch-empty">
+            Click <strong>Load Sample Data</strong> to import test profiles, then <strong>Score All</strong> to analyze.
+          </div>
+          <table class="batch-table" id="batch-table" style="display: none;">
+            <thead>
+              <tr>
+                <th>Worker Label</th>
+                <th>Income (₹)</th>
+                <th>Rating</th>
+                <th>Gigs</th>
+                <th>Score</th>
+                <th>Risk</th>
+                <th>Loan</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody id="batch-tbody"></tbody>
+          </table>
         </div>
       </div>
-      <div class="batch-table-wrapper" id="batch-table-wrapper">
-        <div class="batch-empty" id="batch-empty">
-          Click <strong>Load Sample Data</strong> to import test profiles, then <strong>Score All</strong> to analyze.
-        </div>
-        <table class="batch-table" id="batch-table" style="display: none;">
-          <thead>
-            <tr>
-              <th>Worker Label</th>
-              <th>Income (₹)</th>
-              <th>Rating</th>
-              <th>Gigs</th>
-              <th>Score</th>
-              <th>Risk</th>
-              <th>Loan</th>
-              <th>Reason</th>
-            </tr>
-          </thead>
-          <tbody id="batch-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ── History ── -->
-    <div class="glass-card history-section" id="history-section">
-      <div class="card-header">
-        <div class="icon amber">🕐</div>
-        <h2 class="card-title">Recent Analyses</h2>
-        <button class="history-clear" id="clear-history-btn" title="Clear history">Clear</button>
-      </div>
-      <div class="history-list" id="history-list">
-        <div class="history-empty" id="history-empty">No recent analyses yet.</div>
-      </div>
-    </div>
+    </section>
 
     <!-- ── Footer ── -->
     <footer class="app-footer">
       <p>TrustScore AI &mdash; AI-Powered Credit Intelligence for Gig Workers</p>
+      <p class="footer-powered" id="footer-powered">Powered by AI • Team RiskWise</p>
       <p style="margin-top: 4px;">Built with ❤️ by Team RiskWise &bull; Cognizant Technoverse 2026</p>
     </footer>
 
